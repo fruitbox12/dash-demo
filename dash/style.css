@@ -1,270 +1,230 @@
-@import url("https://fonts.googleapis.com/css?family=Do+Hyeon");
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300");
-* {
-  font-family: "Do Hyeon", sans-serif;
-  position: relative;
-}
+@import url('https://fonts.googleapis.com/css?family=Do+Hyeon')
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300')
 
-html, body {
-  background-color: black;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
 
-.citys {
-  padding: 20px 40px;
-  height: 100px;
-}
-.citys * {
-  color: white;
-}
-.citys h1 {
-  font-size: 48px;
-  letter-spacing: 5px;
-  margin: 0;
-}
+$yellow: white
+$gray: #474c6b
 
-.city {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 10px;
-  z-index: 1;
-  width: 50vw;
-}
-.city .clear {
-  padding: 3px 10px;
-  border: solid 1px white;
-  border-radius: 15px;
-  color: white;
-  letter-spacing: 3px;
-  cursor: pointer;
-  transition: transform 0.2s;
-  margin-bottom: 10px;
-  margin-right: 10px;
-}
-.city .clear:hover {
-  color: white;
-  transform: scale(1.05);
-}
-.city .name {
-  margin-right: 10px;
-  margin-bottom: 10px;
-  padding: 3px 10px;
-  border: solid 1px white;
-  letter-spacing: 2px;
-}
 
-svg {
-  width: 85vw;
-  height: 70vh;
-  top: 100px;
-  transition: 0.3s;
-}
-svg path {
-  stroke: white;
-  fill: transparent !important;
-  transition: 0.2s;
-}
-svg path:hover {
-  fill: rgba(255, 255, 255, 0.7) !important;
-}
-svg path:active {
-  fill: white !important;
-}
+// gradient color set
+$level5: #254772
+$level4: #305b93
+$level3: #4670a8
+$level2: #4a85d3
+$level1: #63a1f2
+$level0: #3f4042
+$topBarDarkBlue: black
+$topBarLightBlue: white
 
-.clicked {
-  fill: white !important;
-  transform: translate(-7px, -7px);
-  stroke-width: 4;
-}
+   
+*
+	font-family: 'Do Hyeon', sans-serif
+	// border: solid 1px white
+	position: relative
+html, body
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $topBarDarkBlue), color-stop(100%, $topBarLightBlue))
+	user-select: none
 
-.tooltip {
-  width: 450px;
-  padding: 10px;
-  position: absolute;
-  right: 10px;
-  top: 20px;
-  transform: scale(0.9);
-}
-.tooltip * {
-  color: white;
-  letter-spacing: 3px;
-  font-family: "Source Sans Pro", sans-serif;
-}
-.tooltip h3 {
-  margin: 0;
-  margin-bottom: 10px;
-  text-align: center;
-  font-size: 30px;
-}
-.tooltip .statusList {
-  width: 70%;
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-row-gap: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.tooltip .statusList .status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.tooltip .statusList .status .type {
-  border-radius: 50%;
-  border: solid 1px white;
-  height: 100px;
-  width: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.tooltip .statusList .status .amount {
-  text-align: center;
-  margin-top: 10px;
-}
+.citys
+	padding: 20px 40px
+	height: 100px
+	*
+		color: white
+	h1
+		font-size: 48px
+		letter-spacing: 5px
+		margin: 0
+.city
+	display: flex
+	flex-wrap: wrap
+	margin-top: 10px
+	z-index: 1
+	width: 50vw
+	// height: 30px
+	.clear
+		padding: 3px 10px
+		border: solid 1px $yellow
+		border-radius: 15px
+		color: $yellow
+		letter-spacing: 3px
+		cursor: pointer
+		transition: transform 0.2s
+		margin-bottom: 10px
+		margin-right: 10px
+		&:hover
+			color: white
+			transform: scale(1.05)
+	.name
+		margin-right: 10px
+		margin-bottom: 10px
+		padding: 3px 10px
+		border: solid 1px white
+		letter-spacing: 2px
+svg
+	width: 85vw
+	height: 70vh
+	top: 100px
+	// border: solid 2px red
+	transition: 0.3s
+	path
+		stroke: white
+		fill: transparent !important
+		transition: 0.2s
+		&:hover
+			fill: rgba($yellow, 0.7) !important
+			// transform: translate(-3px, -3px)
+		&:active
+			fill: $yellow !important
+.clicked
+	fill: $yellow !important
+	transform: translate(-7px, -7px)
+	stroke-width: 4
 
-.country_tip {
-  color: white;
-  position: absolute;
-  padding: 4px 12px;
-  border-radius: 10px;
-  background-color: #474c6b;
-  border: solid 1px white;
-  letter-spacing: 2px;
-  font-family: "Source Sans Pro", sans-serif;
-  z-index: 1;
-  pointer-events: none;
-  transition: 0.2s;
-}
+.tooltip
+	width: 450px
+	padding: 10px
+	position: absolute
+	right: 10px
+	top: 20px
+	transform: scale(0.9)
+	*
+		color: white
+		// border: solid 1px white
+		letter-spacing: 3px
+		font-family: 'Source Sans Pro', sans-serif
+	h3
+		margin: 0
+		margin-bottom: 10px
+		text-align: center
+		font-size: 30px
+	.statusList
+		width: 70%
+		display: grid
+		grid-template-columns: 50% 50%
+		grid-row-gap: 10px
+		left: 50%
+		transform: translateX(-50%)
+		.status
+			display: flex
+			flex-direction: column
+			align-items: center
+			
+			.type
+				border-radius: 50%
+				border: solid 1px white
+				height: 100px
+				width: 100px
+				display: flex
+				justify-content: center
+				align-items: center
+			.amount
+				text-align: center
+				margin-top: 10px
 
-.priceRange {
-  margin-top: 30px;
-  padding: 10px 30px;
-  width: 300px;
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
-  padding: 30px 20px;
-  border-radius: 10px;
-  position: absolute;
-  top: 0px;
-  left: 50%;
-}
-.priceRange * {
-  color: white;
-}
-.priceRange .top {
-  height: 130px;
-}
-.priceRange .top .country-amount {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-}
-.priceRange h4 {
-  margin: 0;
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-.priceRange .country-amount {
-  width: 200px;
-  display: grid;
-  grid-template-columns: 50% 50%;
-  padding: 10px 10px;
-  border: solid 1px black;
-  border-radius: 10px;
-}
-.priceRange .country-amount .country {
-  display: flex;
-}
-.priceRange .country-amount .country .name {
-  margin-right: 15px;
-}
-.priceRange .rangeInfo {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.priceRange .rangeInfo .dash {
-  width: 20px;
-  border-top: solid 1px black;
-}
-.priceRange .rangeInfo .lower, .priceRange .rangeInfo .upper {
-  padding: 5px 10px;
-  border-radius: 8px;
-  border: solid 1px black;
-}
+.country_tip
+	color: white
+	position: absolute
+	padding: 4px 12px
+	border-radius: 10px
+	background-color: $gray
+	border: solid 1px white
+	letter-spacing: 2px
+	font-family: 'Source Sans Pro', sans-serif
+	z-index: 1
+	pointer-events: none
+	transition: 0.2s
+.priceRange
+	margin-top: 30px
+	padding: 10px 30px
+	width: 300px
+	box-shadow: 0px 0px 10px rgba(white, 0.2)
+	padding: 30px 20px
+	border-radius: 10px
+	position: absolute
+	top: 0px
+	left: 50%
+	*
+		color: white
+	.top
+		height: 130px
+		.country-amount
+			position: absolute
+			right: 0px
+			top: 0px
+	h4
+		margin: 0
+		font-size: 36px
+		margin-bottom: 20px
+	.country-amount
+		width: 200px
+		display: grid
+		grid-template-columns: 50% 50%
+		padding: 10px 10px
+		border: solid 1px black
+		border-radius: 10px
+		.country
+			display: flex
+			.name
+				margin-right: 15px
+	.rangeInfo
+		margin-top: 20px
+		display: flex
+		justify-content: space-between
+		align-items: center
+		.dash
+			width: 20px
+			border-top: solid 1px black
+		.lower, .upper
+			padding: 5px 10px
+			border-radius: 8px
+			border: solid 1px black
+	
+.search
+	width: 280px
+	input
+		letter-spacing: 2px
+		font-size: 24px
+		font-family: 'Source Sans Pro', sans-serif
+		padding-left: 5px
+		padding: 20px
 
-.search {
-  width: 280px;
-}
-.search input {
-  letter-spacing: 2px;
-  font-size: 24px;
-  font-family: "Source Sans Pro", sans-serif;
-  padding-left: 5px;
-  padding: 20px;
-}
+.color_palettes
+	position: absolute
+	right: 120px
+	bottom: 30px
+	div
+		width: 35px
+		height: 35px
+		color: white
+		margin-bottom: 5px
+		border: solid 1px white
+	.level0
+		background-color: $level0
+	.level1
+		background-color: $level1
+	.level2
+		background-color: $level2
+	.level3
+		background-color: $level3
+	.level4
+		background-color: $level4
+	.level5
+		background-color: $level5
+	p
+		position: absolute
+		width: 80px
+		top: 50%
+		transform: translate(calc(50% + 10px), -50%)
 
-.color_palettes {
-  position: absolute;
-  right: 120px;
-  bottom: 30px;
-}
-.color_palettes div {
-  width: 35px;
-  height: 35px;
-  color: white;
-  margin-bottom: 5px;
-  border: solid 1px white;
-}
-.color_palettes .level0 {
-  background-color: #3f4042;
-}
-.color_palettes .level1 {
-  background-color: #63a1f2;
-}
-.color_palettes .level2 {
-  background-color: #4a85d3;
-}
-.color_palettes .level3 {
-  background-color: #4670a8;
-}
-.color_palettes .level4 {
-  background-color: #305b93;
-}
-.color_palettes .level5 {
-  background-color: #254772;
-}
-.color_palettes p {
-  position: absolute;
-  width: 80px;
-  top: 50%;
-  transform: translate(calc(50% + 10px), -50%);
-}
-
-path.level0 {
-  fill: #3f4042 !important;
-}
-
-path.level1 {
-  fill: #63a1f2 !important;
-}
-
-path.level2 {
-  fill: #4a85d3 !important;
-}
-
-path.level3 {
-  fill: #4670a8 !important;
-}
-
-path.level4 {
-  fill: #305b93 !important;
-}
-
-path.level5 {
-  fill: #254772 !important;
-}
+path.level0
+	fill: $level0 !important
+path.level1
+	fill: $level1 !important
+path.level2
+	fill: $level2 !important
+path.level3
+	fill: $level3 !important
+path.level4
+	fill: $level4 !important
+path.level5
+	fill: $level5 !important
