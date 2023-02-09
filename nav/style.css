@@ -73,9 +73,10 @@ body {
 }
 
 iframe {
-  display: block;
+  display: relative;
   width: 100%;
   border: none;
+  padding: 4%;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -87,7 +88,7 @@ a {
 
 .top-bar {
   z-index: 20;
-  position: relative;
+  position: block;
   width: 100%;
   background-color: black;
   height: 48px;
