@@ -73,7 +73,7 @@ body {
 }
 
 iframe {
-  display: relative;
+  display: block;
   width: 100%;
   border: none;
   padding: 4%;
@@ -191,6 +191,24 @@ a {
   background-color: whitesmoke;
 }
 
+.loader {
+  margin: 2em 2em 2em;
+  height: 100px;
+  width: 20%;
+  text-align: center;
+  padding: 5em;
+  margin: 0 auto 2em;
+  display: inline-block;
+}
+
+/*
+  Set the color of the icon
+*/
+svg path,
+svg rect {
+  fill: black;
+}
+
 .main {
   position: absolute;
   left: 248px;
@@ -226,7 +244,7 @@ a {
     z-index: 20;
     position: relative;
     width: 100%;
-    background-color: #0288D1;
+    background-color: black;
     height: 48px;
     box-shadow: 0 1px 5.5px 0 rgba(0, 0, 0, 0.4);
     display: flex;
