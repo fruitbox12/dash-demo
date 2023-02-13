@@ -75,7 +75,7 @@ body {
 iframe {
   display: center;
   width: 100%;
-  border:1px solid grey;
+  border: none;
   padding: 4%;
   overflow-y: auto;
   overflow-x: hidden;
