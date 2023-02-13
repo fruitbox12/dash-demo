@@ -2,11 +2,10 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - World Map Animation</title>
+  <title>Shadw</title>
   <link rel='stylesheet' href='https://unpkg.com/quasar-extras@1.0.2/material-icons/material-icons.css'>
 <link rel='stylesheet' href='https://unpkg.com/quasar-framework@latest/dist/umd/quasar.mat.min.css'><link rel="stylesheet" href="./style.css">
 <script type="application/javascript" src="bugout.min.js"></script> 
-
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
   <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
@@ -14,7 +13,13 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/javascript/javascript.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/edit/matchbrackets.min.js"></script>
   <link href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css" rel="stylesheet">
-
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/javascript/javascript.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/edit/matchbrackets.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css" rel="stylesheet">
   <script  type="application/javascript" src="bugout.min.js"></script>
 </head>
 <body>   
@@ -1643,57 +1648,99 @@ pre {
    
 </style>
 <script>
-  hljs.initHighlightingOnLoad();
+        // connect to server using its public address
+        var b = null;
+    // when the user clicks the connect button
+    document.getElementById("connect").onclick = function() {
+    var serverAddress = document.getElementById("serverAddress").value;
+    b = new Bugout(serverAddress);
+    log("My address is " + b.address())();
+log("Connecting to the server...\n(this can take a minute)")();
 
-// log events as they happen
-function log(prefix) {
-  return function() {
-    var args = Array.prototype.slice.call(arguments);
-    var msg = prefix + " " +
-      args.map(function(a) {
-        return (a ? JSON.stringify(a) : "");
-      }).join(" ") + "\n";
-    document.getElementById("log").textContent += msg;
-    console.log(msg);
+// wait for connection to the server
+b.on("server", function() {
+  // ok, we're connected
+  log("Connected to the server.")();
+  // make an RPC API call on the server and log the result
+  b.rpc("ping", {"Hello": "world"}, log("response:"));
+  // watch for {"Hello": "world", "pong": true} in the log below
+  // show a simple UI for testing the server API
+  showUI();
+});
+
+// also watch for other peers joining this server's swarm
+b.on("seen", log("seen:"));
+    }
+   hljs.initHighlightingOnLoad();
+   
+   // log events as they happen
+   function log(prefix) {
+     return function() {
+       var args = Array.prototype.slice.call(arguments);
+       var msg = prefix + " " +
+         args.map(function(a) {
+           return (a ? JSON.stringify(a) : "");
+         }).join(" ") + "\n";
+       document.getElementById("log").textContent += msg;
+       console.log(msg);
+     }
+   }
+   
+   var source = document.getElementById("source");
+   var user = document.getElementById("user");
+   
+   // update the address if one was passed in
+   var address = window.location.hash.substr(1);
+   if (address) {
+     source.textContent = source.innerHTML.replace("7Z3mcHq86AS7znzudowr8DhheFKuSL6VpZALmRARCej1", address);
+     var instructions = document.getElementsByClassName("instructions");
+     for (var i=0; i<instructions.length; i++) {
+       instructions[i].style.display = "none";
+     }
+   }
+   
+   // reference to the codemirror editor
+   var editor = null;
+   
+   // function to show the rpc ui once connected
+   function showUI() {
+     document.getElementById("ui").style = "block";
+     // add a codemirror editor
+     editor = CodeMirror.fromTextArea(document.getElementById("user"), {
+       lineNumbers: true,
+       matchBrackets: true,
+       continueComments: "Enter",
+       extraKeys: {"Ctrl-Q": "toggleComment"}
+     });
+     editor.setSize(null, 80);
+   }
+   
+   // when the user clicks the reload button
+   document.getElementById("run").onclick = function() {
+     editor.save();
+     eval(user.value);
+   }
+   document.getElementById("connect").onclick = function() {
+    var serverAddress = document.getElementById("serverAddress").value;
+    b = new Bugout(serverAddress);
+  
+    log("My address is " + b.address())();
+    log("Connecting to the server...\n(this can take a minute)")();
+  
+    // wait for connection to the server
+    b.on("server", function() {
+      // ok, we're connected
+      log("Connected to the server.")();
+      // make an RPC API call on the server and log the result
+      b.rpc("ping", {"Hello": "world"}, log("response:"));
+      // watch for {"Hello": "world", "pong": true} in the log below
+      // show a simple UI for testing the server API
+      showUI();
+    });
+  
+    // also watch for other peers joining this server's swarm
+    b.on("seen", log("seen:"));
   }
-}
-
-var source = document.getElementById("connect");
-var user = document.getElementById("serverAddress");
-
-// update the address if one was passed in
-var address = window.location.hash.substr(1);
-if (address) {
-  source.textContent = source.innerHTML.replace("7Z3mcHq86AS7znzudowr8DhheFKuSL6VpZALmRARCej1", address);
-  var instructions = document.getElementsByClassName("instructions");
-  for (var i=0; i<instructions.length; i++) {
-    instructions[i].style.display = "none";
-  }
-}
-
-// reference to the codemirror editor
-var editor = null;
-
-// function to show the rpc ui once connected
-function showUI() {
-  document.getElementById("ui").style = "block";
-  // add a codemirror editor
-  editor = CodeMirror.fromTextArea(document.getElementById("user"), {
-    lineNumbers: true,
-    matchBrackets: true,
-    continueComments: "Enter",
-    extraKeys: {"Ctrl-Q": "toggleComment"}
-  });
-  editor.setSize(null, 80);
-}
-
-// when the user clicks the reload button
-document.getElementById("run").onclick = function() {
-  editor.save();
-  eval(user.value);
-}
-
-// run the code in the pre tags
-eval(source.innerHTML);
+   // run the code in the pre tags
    </script>
 </html>
