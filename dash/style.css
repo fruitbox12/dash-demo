@@ -6,7 +6,8 @@
 }
 
 html, body {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, black), color-stop(100%, white));
+  background: black;
+
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -131,7 +132,7 @@ svg path:active {
   position: absolute;
   padding: 4px 12px;
   border-radius: 10px;
-  background-color: #474c6b;
+  background-color: #707070;
   border: solid 1px white;
   letter-spacing: 2px;
   font-family: "Source Sans Pro", sans-serif;
@@ -224,19 +225,19 @@ svg path:active {
   background-color: #3f4042;
 }
 .color_palettes .level1 {
-  background-color: #63a1f2;
+  background-color: #63f26f;
 }
 .color_palettes .level2 {
-  background-color: #4a85d3;
+  background-color: #63f26f;
 }
 .color_palettes .level3 {
-  background-color: #4670a8;
+  background-color: #63f26f;
 }
 .color_palettes .level4 {
-  background-color: #305b93;
+  background-color: #63f26f;
 }
 .color_palettes .level5 {
-  background-color: #254772;
+  background-color: #287225;
 }
 .color_palettes p {
   position: absolute;
@@ -250,21 +251,21 @@ path.level0 {
 }
 
 path.level1 {
-  fill: #63a1f2 !important;
+  fill: #63f26f !important;
 }
 
 path.level2 {
-  fill: #4a85d3 !important;
+  fill: #63f26f !important;
 }
 
 path.level3 {
-  fill: #4670a8 !important;
+  fill: #63f26f !important;
 }
 
 path.level4 {
-  fill: #305b93 !important;
+  fill: #63f26f !important;
 }
 
 path.level5 {
-  fill: #254772 !important;
+  fill: #63f26f !important;
 }

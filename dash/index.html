@@ -5,27 +5,73 @@
   <title>CodePen - World Map Animation</title>
   <link rel='stylesheet' href='https://unpkg.com/quasar-extras@1.0.2/material-icons/material-icons.css'>
 <link rel='stylesheet' href='https://unpkg.com/quasar-framework@latest/dist/umd/quasar.mat.min.css'><link rel="stylesheet" href="./style.css">
-
+<script type="application/javascript" src="bugout.min.js"></script> 
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/javascript/javascript.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/edit/matchbrackets.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css" rel="stylesheet">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/javascript/javascript.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/edit/matchbrackets.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css" rel="stylesheet">
+  <script  type="application/javascript" src="bugout.min.js"></script>
 </head>
-<body>
+<body>   
+   <pre hidden><code id="source" class="javascript">
+      // connect to server using its public address
+      var b = new Bugout(window.location.hash.substr(1) || "bUH7ukDvd9R2xLLRKMKWZ1mGPkgdVfufye");
+      
+      log("My address is " + b.address())();
+      log("Connecting to the server...\n(this can take a minute)")();
+      
+      // wait for connection to the server
+      b.on("server", function() {
+        // ok, we're connected
+        log("Connected to the server.")();
+        // make an RPC API call on the server and log the result
+        b.rpc("ping", {"Hello": "world"}, log("response:"));
+        // watch for {"Hello": "world", "pong": true} in the log below
+        // show a simple UI for testing the server API
+        showUI();
+      });
+      
+      // also watch for other peers joining this server's swarm
+      b.on("seen", log("seen:"));
+      
+      </code></pre>
+
+   <div id="ui" style="display: none;">
+     <textarea id="user">
+   // make your own calls to the server
+   b.rpc("ping", {"Hello": "world"}, log("response:"));
+     </textarea>
+     <button id="run">run</button>
+   </div>
 <!-- partial:index.partial.html -->
 <div id="app">
-	
+   
 	<div class="country_tip" :style="country_tip_pos">{{now_city}}</div>
 	<div class="citys">
 		<h1>Shadow Nodes</h1>
 		
-		<div class="search">
+		<div id="serverAddress"> 
 			<q-input v-model="search" float-label="Enter a Shadow Node or Peer ID" placeholder="" @keyup.enter="randomCountry"/>
-		</div>
+		</div>         <button id="connect">Connect</button>
+
 		<div class="city">
 			<div class="name" v-for="city in citys_list">{{city}}</div>
-			<div class="clear"
+         <div class="clear"
 				  v-if="!list_empty"
 				  v-on:click="clearSelect">Clear
 			</div>
-			<div class="clear"
-				  v-on:click="resetView">Connect
+			<div id="serverAddress"
+				  v-on:click="resetView">
 			</div>
 	</div>
 	</div>
@@ -1523,32 +1569,178 @@
      data-id="IC"
      d="m 879.6,395.2 -0.2,-0.2 -0.7,0.5 -0.6,0 0.1,0.2 0.1,0.2 0.7,0.4 0.6,-1.1 z m 13.5,-2.1 0,-0.1 -0.1,0 -0.1,0.1 -1.3,-0.1 -0.2,0.6 -0.5,0.4 0,0.7 0.5,0.7 0.3,0.1 0.5,0.1 0.7,-0.4 0.2,-0.4 0.1,-0.8 -0.1,-0.4 0,-0.5 z m -9.7,0.8 0.5,-0.4 0,-0.2 -0.1,-0.3 -0.5,-0.3 -0.2,0 -0.2,0.2 -0.2,0.4 0.3,0.5 0.2,0.1 0.2,0 z m 4.7,-2.3 1.2,-1 0,-0.3 -1,0.1 -1.1,1 -0.3,0.1 -1,0.1 -0.5,0 -0.4,0.2 0.2,0.3 0.4,1 0.7,0.9 0.6,-0.2 0.3,-0.2 0.4,-0.6 0.5,-1.4 z m 11.6,1.3 1.5,-0.5 0.3,-1 0.3,-1.1 0,-0.7 -0.2,-0.3 -0.1,0 -0.4,0 -0.3,0.2 -0.1,0.6 -0.7,1.3 -0.5,1.2 -0.7,0.6 -0.7,0.2 0.1,0.1 0.7,0.1 0.8,-0.7 z m -19.7,-2 0.5,-0.5 0.1,-0.3 -0.1,-0.5 0.2,-0.2 -0.1,-0.4 -0.3,-0.4 -0.7,0 -0.4,0.6 0.6,1.2 0.1,0.5 0.1,0 z m 22.4,-2.7 0.9,-0.3 0.5,-0.3 0.1,-0.9 0.2,-0.3 -0.2,-0.3 -0.2,0.2 -0.2,0.4 -0.6,0.2 -0.8,0.4 -0.2,0.3 -0.2,0.9 0.4,0.1 0.3,-0.4 z"
      style="fill:#f2f2f2;fill-rule:evenodd" />
-</svg><div class="color_palettes">
-		<div class="level5">
-			<p><strong>Capacity:</strong> 100%</p>
-		</div>
-		<div class="level4">
-			<p><strong>Capacity:</strong> 75%</p>
-		</div>
-		<div class="level3">
-			<p><strong>Capacity:</strong> 50%</p>
-		</div>
-		<div class="level2">
-			<p><strong>Capacity:</strong> 25%</p>
-		</div>
-		<div class="level1">
-			<p><strong>Capacity:</strong> 10%</p>
-		</div>	</div>
+</svg>        
 
-		<div class="level0">
-			<p>no data</p>
-		</div>
-	</div>	
-</div>
+</div>   <h3>Log</h3>
+
+<pre id="log"></pre> 
 <!-- partial -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js'></script>
 <script src='https://unpkg.com/quasar-framework@latest/dist/umd/quasar.mat.umd.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js'></script><script  src="./script.js"></script>
 
 </body>
+<style>
+   * { 
+  box-sizing: border-box;
+}
+
+a {
+  color: #f80000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+p.instructions {
+  text-align: justify;
+}
+
+h3 {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  color: white;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.5em;
+  border-radius: 3px;
+  border: 1px solid silver;
+}
+
+button {
+  border-radius: 5px;
+  background-color: #202020;
+  color: white;
+  border: none;
+  padding: 0.25em 1em;
+  font-size: 1.25em;
+  float: right;
+  margin-top: 0.5em;
+}
+
+img {
+  max-width: 100%;
+}
+
+pre {
+  max-width: 100%;
+  width: 100%;
+  padding: 0.5em;
+  border-radius: 3px;
+  text-overflow: ellipsis;
+  color: rgb(0, 158, 97);
+
+  overflow: hidden;
+  text-align: left;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+
+
+.CodeMirror {
+  border-top: 1px solid rgb(255, 255, 255);
+  border-bottom: 1px solid rgb(255, 255, 255);
+  height: auto;
+}
+
+   
+</style>
+<script>
+        // connect to server using its public address
+        var b = null;
+    // when the user clicks the connect button
+    document.getElementById("connect").onclick = function() {
+    var serverAddress = document.getElementById("serverAddress").value;
+    b = new Bugout(serverAddress);
+    log("My address is " + b.address())();
+log("Connecting to the server...\n(this can take a minute)")();
+
+// wait for connection to the server
+b.on("server", function() {
+  // ok, we're connected
+  log("Connected to the server.")();
+  // make an RPC API call on the server and log the result
+  b.rpc("ping", {"Hello": "world"}, log("response:"));
+  // watch for {"Hello": "world", "pong": true} in the log below
+  // show a simple UI for testing the server API
+  showUI();
+});
+
+// also watch for other peers joining this server's swarm
+b.on("seen", log("seen:"));
+    }
+   hljs.initHighlightingOnLoad();
+   
+   // log events as they happen
+   function log(prefix) {
+     return function() {
+       var args = Array.prototype.slice.call(arguments);
+       var msg = prefix + " " +
+         args.map(function(a) {
+           return (a ? JSON.stringify(a) : "");
+         }).join(" ") + "\n";
+       document.getElementById("log").textContent += msg;
+       console.log(msg);
+     }
+   }
+   
+   var source = document.getElementById("source");
+   var user = document.getElementById("user");
+   
+   // update the address if one was passed in
+   var address = window.location.hash.substr(1);
+   if (address) {
+     source.textContent = source.innerHTML.replace("7Z3mcHq86AS7znzudowr8DhheFKuSL6VpZALmRARCej1", address);
+     var instructions = document.getElementsByClassName("instructions");
+     for (var i=0; i<instructions.length; i++) {
+       instructions[i].style.display = "none";
+     }
+   }
+   
+   // reference to the codemirror editor
+   var editor = null;
+   
+   // function to show the rpc ui once connected
+   function showUI() {
+     document.getElementById("ui").style = "block";
+     // add a codemirror editor
+     editor = CodeMirror.fromTextArea(document.getElementById("user"), {
+       lineNumbers: true,
+       matchBrackets: true,
+       continueComments: "Enter",
+       extraKeys: {"Ctrl-Q": "toggleComment"}
+     });
+     editor.setSize(null, 80);
+   }
+   
+   // when the user clicks the reload button
+   document.getElementById("run").onclick = function() {
+     editor.save();
+     eval(user.value);
+   }
+   document.getElementById("connect").onclick = function() {
+    var serverAddress = document.getElementById("serverAddress").value;
+    b = new Bugout(serverAddress);
+  
+    log("My address is " + b.address())();
+    log("Connecting to the server...\n(this can take a minute)")();
+  
+    // wait for connection to the server
+    b.on("server", function() {
+      // ok, we're connected
+      log("Connected to the server.")();
+      // make an RPC API call on the server and log the result
+      b.rpc("ping", {"Hello": "world"}, log("response:"));
+      // watch for {"Hello": "world", "pong": true} in the log below
+      // show a simple UI for testing the server API
+      showUI();
+    });
+  
+    // also watch for other peers joining this server's swarm
+    b.on("seen", log("seen:"));
+  }
+   // run the code in the pre tags
+   </script>
 </html>
