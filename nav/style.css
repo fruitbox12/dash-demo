@@ -73,7 +73,7 @@ body {
 }
 
 iframe {
-  display: relative;
+  display: center;
   width: 100%;
   border:1px solid rgb(58, 58, 58);
   padding: 4%;
