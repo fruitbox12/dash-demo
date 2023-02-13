@@ -73,7 +73,7 @@ body {
 }
 
 iframe {
-  display: center;
+  display: block;
   width: 100%;
   border:1px solid grey;
   padding: 4%;
